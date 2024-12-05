@@ -70,10 +70,10 @@
   dependencies:
     ioredis "^5.4.1"
 
-"@keyv/sqlite@^3.6.7":
-  version "3.6.7"
-  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.6.7.tgz#32a1279b26f2b63f1b98694266cf5c16fdde8fe1"
-  integrity sha512-r9MrIApqa5i1tJPijsxbXLplm0y+E2GTuCHw0N1oSz/0a16txUdzRmOGX0ggLVbz2MDlDojYRG7GCdq5y0xQBQ==
+"@keyv/sqlite@^4.0.1":
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-4.0.1.tgz#a841856992e53f8cf27d06b99adaf3fa4d6ec454"
+  integrity sha512-Ngs9jhElXN7efS9WvvCC/p6rXMbihna8eNLVBc421Zf+VcFd+pR4DOcS6yA9V22EKtAy4DEj7LtvEEIm0bb80A==
   dependencies:
     sqlite3 "^5.1.7"
 
