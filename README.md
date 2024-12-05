@@ -40,6 +40,7 @@ Adjust all required settings in the `.env` file before running. Optional setting
 - By default, anyone that knows the name of your bot can invite it to rooms or chat with it.
 - Restrict access with `MATRIX_BLACKLIST` or `MATRIX_WHITELIST`
 - Restrict access with `MATRIX_ROOM_BLACKLIST` or `MATRIX_ROOM_WHITELIST`
+- Restrict access with `MATRIX_POWER_LEVEL` (defaults to 0)
 - When using a self-hosted setup, you could wildcard all your users with `MATRIX_WHITELIST=:yourhomeserver.example`.
 
 ### OpenAI / ChatGPT

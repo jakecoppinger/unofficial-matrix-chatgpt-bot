@@ -25,6 +25,7 @@ export const {
   MATRIX_WHITELIST,
   MATRIX_ROOM_BLACKLIST,
   MATRIX_ROOM_WHITELIST,
+  MATRIX_POWER_LEVEL,
   /** Matrix Bot Runtime Config */
   MATRIX_DEFAULT_PREFIX,
   MATRIX_DEFAULT_PREFIX_REPLY,
@@ -62,6 +63,7 @@ export const {
   MATRIX_WHITELIST:            { schema: z.string().optional(),                    description: "Set to a spaces separated string of 'user:homeserver' or a wildcard like ':anotherhomeserver.example' to whitelist users or domains" },
   MATRIX_ROOM_BLACKLIST:       { schema: z.string().optional(),                    description: "Set to a spaces separated string of 'user:homeserver' or a wildcard like ':anotherhomeserver.example' to blacklist rooms or domains" },
   MATRIX_ROOM_WHITELIST:       { schema: z.string().optional(),                    description: "Set to a spaces separated string of 'user:homeserver' or a wildcard like ':anotherhomeserver.example' to whitelist rooms or domains" },
+  MATRIX_POWER_LEVEL:          { schema: z.number().default(0),                    description: "Set to the minimum required power level - in default server config user is 0, Mod is 50, Admin is 100. Default is 0." },
   /** Matrix Bot Runtime Config */
   MATRIX_DEFAULT_PREFIX:       { schema: z.string().default(""),                   description: "Set to a string if you want the bot to respond only when messages start with this prefix. Trailing space matters. Empty for no prefix." },
   MATRIX_DEFAULT_PREFIX_REPLY: { schema: z.boolean().default(false),               description: "Set to false if you want the bot to answer to all messages in a thread/conversation" },

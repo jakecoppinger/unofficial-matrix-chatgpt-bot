@@ -1,6 +1,6 @@
 import ChatGPTClient from '@waylaidwanderer/chatgpt-api';
 import { LogService, MatrixClient, UserID } from "matrix-bot-sdk";
-import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, CHATGPT_IGNORE_MEDIA, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS, MATRIX_ROOM_BLACKLIST, MATRIX_ROOM_WHITELIST } from "./env.js";
+import { CHATGPT_CONTEXT, CHATGPT_TIMEOUT, CHATGPT_IGNORE_MEDIA, MATRIX_DEFAULT_PREFIX_REPLY, MATRIX_DEFAULT_PREFIX, MATRIX_BLACKLIST, MATRIX_WHITELIST, MATRIX_POWER_LEVEL, MATRIX_RICH_TEXT, MATRIX_PREFIX_DM, MATRIX_THREADS, MATRIX_ROOM_BLACKLIST, MATRIX_ROOM_WHITELIST } from "./env.js";
 import { RelatesTo, MessageEvent, StoredConversation, StoredConversationConfig } from "./interfaces.js";
 import { sendChatGPTMessage, sendError, sendReply } from "./utils.js";
 
@@ -29,12 +29,28 @@ export default class CommandHandler {
     }
   }
 
-  private shouldIgnore(event: MessageEvent, roomId: string): boolean {
+  private async userBelowPowerLevel(userId: string, roomId: string) {
+    const powerLevelsEvent = await this.client.getRoomStateEvent(roomId, "m.room.power_levels", "");
+    if (!powerLevelsEvent) {
+      LogService.warn("No power level event found");
+    }
+
+    let requiredPower = MATRIX_POWER_LEVEL;
+
+    let userPower = 0;
+    if (Number.isFinite(powerLevelsEvent["users_default"])) userPower = powerLevelsEvent["users_default"];
+    if (Number.isFinite(powerLevelsEvent["users"]?.[userId])) userPower = powerLevelsEvent["users"][userId];
+
+    return userPower < requiredPower;
+  }
+
+  private async shouldIgnore(event: MessageEvent, roomId: string): Promise<boolean> {
     if (event.sender === this.userId) return true;                                                              // Ignore ourselves
     if (MATRIX_BLACKLIST &&  MATRIX_BLACKLIST.split(" ").find(b => event.sender.endsWith(b))) return true;      // Ignore if on blacklist if set
     if (MATRIX_WHITELIST && !MATRIX_WHITELIST.split(" ").find(w => event.sender.endsWith(w))) return true;      // Ignore if not on whitelist if set
     if (MATRIX_ROOM_BLACKLIST &&  MATRIX_ROOM_BLACKLIST.split(" ").find(b => roomId.endsWith(b))) return true;  // Ignore if on room blacklist if set
     if (MATRIX_ROOM_WHITELIST && !MATRIX_ROOM_WHITELIST.split(" ").find(w => roomId.endsWith(w))) return true;  // Ignore if not on room whitelist if set
+    if (await this.userBelowPowerLevel(event.sender, roomId)) return true;                                      // Ignore if power level too low
     if (Date.now() - event.origin_server_ts > 10000) return true;                                               // Ignore old messages
     if (event.content["m.relates_to"]?.["rel_type"] === "m.replace") return true;                               // Ignore edits
     if (CHATGPT_IGNORE_MEDIA && event.content.msgtype !== "m.text") return true;                                // Ignore everything which is not text if set
@@ -104,7 +120,7 @@ export default class CommandHandler {
    */
   private async onMessage(roomId: string, event: MessageEvent) {
     try {
-      if (this.shouldIgnore(event, roomId)) return;
+      if (await this.shouldIgnore(event, roomId)) return;
 
       const storageKey = this.getStorageKey(event, roomId);
       const storedConversation = await this.getStoredConversation(storageKey, roomId);
