@@ -70,6 +70,13 @@
   dependencies:
     ioredis "^5.4.1"
 
+"@keyv/serialize@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@keyv/serialize/-/serialize-1.0.1.tgz#8dae240d5fe11c589e38b73a2db238dcf26a33cf"
+  integrity sha512-kKXeynfORDGPUEEl2PvTExM2zs+IldC6ZD8jPcfvI351MDNtfMlw9V9s4XZXuJNDK2qR5gbEKxRyoYx3quHUVQ==
+  dependencies:
+    buffer "^6.0.3"
+
 "@keyv/sqlite@^3.6.7":
   version "3.6.7"
   resolved "https://registry.yarnpkg.com/@keyv/sqlite/-/sqlite-3.6.7.tgz#32a1279b26f2b63f1b98694266cf5c16fdde8fe1"
@@ -1677,14 +1684,14 @@ keyv-file@^0.2.0:
     fs-extra "^4.0.1"
     tslib "^1.9.3"
 
-keyv-file@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/keyv-file/-/keyv-file-0.3.1.tgz#fd85810e0551b70ad8e954b9f2fa23622d1cad09"
-  integrity sha512-nrIyNaGlw8nf11mu8p7ttr+Qj6V3N0/BO62Y/oDsi02aWKWYaQjGVPLo0XPfRIwgaByQabuA/IH1se7i150LnQ==
+keyv-file@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/keyv-file/-/keyv-file-5.0.3.tgz#2304ac2db9fe53f3c136c89339de2ddd362f10c4"
+  integrity sha512-VoX/Y+sMGM9O/d0PFNfuqQDt1cJaBDKgHDuauQeLfhd3S8LKZgqSsJRDoYBbMW8qvuv/1/TJhfAq4k/AXpWxYw==
   dependencies:
-    debug "^4.1.1"
+    "@keyv/serialize" "^1.0.1"
     fs-extra "^4.0.1"
-    tslib "^1.9.3"
+    tslib "^1.14.1"
 
 keyv@^4.5.2:
   version "4.5.2"
@@ -3001,7 +3008,7 @@ tough-cookie@^2.3.3, tough-cookie@~2.5.0:
     psl "^1.1.28"
     punycode "^2.1.1"
 
-tslib@^1.9.3:
+tslib@^1.14.1, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
